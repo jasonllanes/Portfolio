@@ -2,71 +2,129 @@ import { useState } from 'react';
 import { useScrollAnimation } from '../../../hooks/useScrollAnimation';
 import SectionTitle from '../../../components/common/SectionTitle';
 import Card from '../../../components/common/Card';
-import Button from '../../../components/common/Button';
 import { cn } from '../../../lib/utils';
 
-type Category = 'all' | 'web' | 'mobile';
+// Load all project screenshots via Vite glob (handles bracket/space chars in filenames)
+const allProjectImages = import.meta.glob('../../../assets/projects/*.png', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+}) as Record<string, string>;
 
-const PROJECTS = [
+const img = (filename: string): string =>
+    allProjectImages[`../../../assets/projects/${filename}`] ?? '';
+
+type Category = 'all' | 'web' | 'mobile' | 'freelance' | 'competition';
+
+interface Project {
+    title: string;
+    description: string;
+    tags: string[];
+    category: Category;
+    type: string;
+    status: string;
+    org: string;
+    images: string[];
+    links: { demo: string | null; github: string | null };
+}
+
+const PROJECTS: Project[] = [
     {
-        title: 'E-Commerce Web App',
+        title: 'eFAS — Electronic Financial Accounting System',
         description:
-            'A full-featured online store built with React, Node.js, and PostgreSQL. Supports authentication, cart management, and Stripe payments.',
-        tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
-        category: 'web' as const,
+            'A government web system built for DICT Misamis Oriental featuring two portals: NTCA Balance monitoring with quarterly tracking across Personnel Services and Special Programs, and an RAOD records portal. Integrates live Google Sheets for real-time data sync, includes a request scheduling module with search and filtering, and one-click PDF export for business reports.',
+        tags: ['React JS', 'Google Sheets API', 'PDF Export', 'Government', 'Financial System'],
+        category: 'web',
+        type: 'Government',
         status: 'Live',
-        image: null,
-        links: { demo: '#', github: '#' },
+        org: 'Dept. of Information & Communications Technology',
+        images: [
+            img('[Web]eFAS_Dark_2.png'),
+            img('[Web]eFAS_Dark.png'),
+            img('[Web]eFAS.png'),
+            img('[Web]eFAS_2.png'),
+            img('[Web]eFAS_Report.png'),
+            img('eFAS_3.png'),
+        ].filter(s => s.length > 0),
+        links: { demo: null, github: null },
     },
     {
-        title: 'Fitness Tracker App',
+        title: 'Smart Roster',
         description:
-            'A cross-platform mobile app built with React Native that allows users to log workouts, track progress, and set fitness goals.',
-        tags: ['React Native', 'Expo', 'Firebase'],
-        category: 'mobile' as const,
+            'A web-based HR and workforce management system featuring a live map deployment view that tracks employee field locations across the Philippines using interactive Leaflet maps. Includes daily time record management, table status monitoring, user management, audit trail logging, and configurable system settings.',
+        tags: ['React JS', 'Leaflet Maps', 'HR System', 'Web App', 'Real-time'],
+        category: 'web',
+        type: 'Company',
         status: 'Live',
-        image: null,
-        links: { demo: '#', github: '#' },
+        org: 'Antimony Technologies',
+        images: [
+            img('[Web]SmartRooster.png'),
+            img('[Web]SmartRooster_2.png'),
+        ].filter(s => s.length > 0),
+        links: { demo: null, github: null },
     },
     {
-        title: 'Project Management Dashboard',
+        title: 'Whipo — All-in-One Service Marketplace',
         description:
-            'A Kanban-style project management tool with real-time updates, drag-and-drop, and team collaboration features.',
-        tags: ['Next.js', 'TypeScript', 'Prisma', 'WebSockets'],
-        category: 'web' as const,
-        status: 'In Progress',
-        image: null,
-        links: { demo: '#', github: '#' },
-    },
-    {
-        title: 'Food Delivery Mobile App',
-        description:
-            'A feature-rich mobile app with geolocation-based restaurant discovery, real-time order tracking, and in-app payments.',
-        tags: ['React Native', 'Redux', 'Google Maps API'],
-        category: 'mobile' as const,
+            'A full-featured service marketplace platform available on both web and mobile. Connects service seekers with trusted providers across categories including Home & Property, Auto Care, Health & Wellness, Events & Celebration, and Pet Care. Features dual Seeker/Provider roles, service browsing, booking, and account management across all devices.',
+        tags: ['React JS', 'Flutter', 'Mobile', 'Web App', 'Marketplace'],
+        category: 'web',
+        type: 'Company',
         status: 'Live',
-        image: null,
-        links: { demo: '#', github: '#' },
+        org: 'Antimony Technologies',
+        images: [
+            img('[Web, Mobile]whipo.png'),
+            img('[Web,Mobile]whipo_2.png'),
+        ].filter(s => s.length > 0),
+        links: { demo: 'https://whipo.ph', github: null },
     },
     {
-        title: 'Personal Blog Platform',
+        title: 'Alive — Print Meets Reality',
         description:
-            'A headless CMS-powered blog with MDX support, syntax highlighting, SEO optimization, and a clean minimalist design.',
-        tags: ['Next.js', 'MDX', 'Tailwind CSS', 'Vercel'],
-        category: 'web' as const,
+            'A web platform for AR-enhanced print products including professional invitation cards, business cards, and custom prints. Users scan a printed card to unlock photos, videos, and 3D experiences — bridging physical print with digital augmented reality for a unique and memorable takeaway.',
+        tags: ['React JS', 'Augmented Reality', 'Web App', 'AR'],
+        category: 'web',
+        type: 'Company',
         status: 'Live',
-        image: null,
-        links: { demo: '#', github: '#' },
+        org: 'Antimony Technologies',
+        images: [img('[Web]Alive.png')].filter(s => s.length > 0),
+        links: { demo: 'https://alive-flame.vercel.app', github: null },
     },
     {
-        title: 'Chat Messenger App',
+        title: 'CyTech International Website',
         description:
-            'A real-time mobile chat app supporting group chats, media sharing, read receipts, and push notifications.',
-        tags: ['React Native', 'Socket.io', 'Node.js', 'MongoDB'],
-        category: 'mobile' as const,
-        status: 'In Progress',
-        image: null,
-        links: { demo: '#', github: '#' },
+            'Corporate website for CyTech International, a cybersecurity company specializing in Cyber Governance & Excellence. Built as Front-end Developer, implementing a modern multi-section site covering C4I-driven intelligence, governance frameworks, and operational excellence — positioning the brand as a global enterprise cybersecurity ecosystem.',
+        tags: ['React JS', 'HTML', 'CSS', 'JavaScript', 'Corporate Web'],
+        category: 'web',
+        type: 'Company',
+        status: 'Live',
+        org: 'CyTech International',
+        images: [img('[Web]CyTech.png')].filter(s => s.length > 0),
+        links: { demo: 'https://cytechint.com', github: null },
+    },
+    {
+        title: 'Oro Kalimpyo (OK) App',
+        description:
+            "An Android application built from scratch for Cagayan de Oro's MRF Cooperatives under CLENRO and UN Habitat. Part of a selected team after the City Matching stage of the Plastic 3R Hacks PH Hackathon, supporting sustainable waste management for the city.",
+        tags: ['Android', 'Java', 'Firebase', 'Back-end', 'REST API'],
+        category: 'freelance',
+        type: 'Freelance',
+        status: 'Delivered',
+        org: 'CLENRO / UN Habitat',
+        images: [],
+        links: { demo: null, github: null },
+    },
+    {
+        title: 'Panaghiusa Application',
+        description:
+            '"Panaghiusa" — Cebuano for Unity — is a mobile app built for the Google Solution Challenge, aligned with the UN SDG goal of Responsible Consumption and Production. Enables users to turn garbage into incentives. Led the team as Team Lead while contributing to Android and back-end development.',
+        tags: ['Android', 'Java', 'Firebase', 'Back-end', 'SDG'],
+        category: 'competition',
+        type: 'Competition',
+        status: 'Submitted',
+        org: 'Google Developer Student Clubs',
+        images: [img('[Web, Mobile]Panaghiusa.png')].filter(s => s.length > 0),
+        links: { demo: 'https://panaghiusa.netlify.app', github: null },
     },
 ];
 
@@ -74,8 +132,80 @@ const TABS: { label: string; value: Category }[] = [
     { label: 'All', value: 'all' },
     { label: 'Web', value: 'web' },
     { label: 'Mobile', value: 'mobile' },
+    { label: 'Freelance', value: 'freelance' },
+    { label: 'Competition', value: 'competition' },
 ];
 
+// ── Carousel ─────────────────────────────────────────────────────────────────
+const ProjectCarousel = ({ images, alt, isMobile }: { images: string[]; alt: string; isMobile: boolean }) => {
+    const [idx, setIdx] = useState(0);
+
+    if (images.length === 0) {
+        return (
+            <div
+                className="w-full h-full flex flex-col items-center justify-center gap-2"
+                style={{ background: 'linear-gradient(135deg, var(--bg-secondary), var(--bg-card-hover))' }}
+            >
+                <span className="text-5xl opacity-30">{isMobile ? '📱' : '🌐'}</span>
+                <span className="text-[0.7rem] font-medium tracking-widest uppercase" style={{ color: 'var(--text-muted)' }}>
+                    No Preview
+                </span>
+            </div>
+        );
+    }
+
+    return (
+        <div className="relative w-full h-full group overflow-hidden">
+            <img
+                src={images[idx]}
+                alt={`${alt} ${idx + 1}`}
+                className="w-full h-full object-cover object-top transition-opacity duration-300"
+            />
+            {images.length > 1 && (
+                <>
+                    <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setIdx((idx - 1 + images.length) % images.length); }}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-xl leading-none text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        style={{ background: 'rgba(0,0,0,0.6)' }}
+                        aria-label="Previous image"
+                    >
+                        ‹
+                    </button>
+                    <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setIdx((idx + 1) % images.length); }}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-xl leading-none text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        style={{ background: 'rgba(0,0,0,0.6)' }}
+                        aria-label="Next image"
+                    >
+                        ›
+                    </button>
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+                        {images.map((_, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); setIdx(i); }}
+                                className={cn(
+                                    'w-2 h-2 rounded-full transition-colors duration-200 border-0 p-0',
+                                    i === idx ? 'bg-white' : 'bg-white/40 hover:bg-white/70'
+                                )}
+                                aria-label={`Image ${i + 1}`}
+                            />
+                        ))}
+                    </div>
+                    <span className="absolute top-2 right-2 text-[0.65rem] font-semibold text-white/80 pointer-events-none"
+                        style={{ background: 'rgba(0,0,0,0.5)', padding: '2px 6px', borderRadius: '9999px' }}>
+                        {idx + 1}/{images.length}
+                    </span>
+                </>
+            )}
+        </div>
+    );
+};
+
+// ── Main Component ────────────────────────────────────────────────────────────
 const Projects = () => {
     const [activeTab, setActiveTab] = useState<Category>('all');
     const ref = useScrollAnimation();
@@ -131,70 +261,63 @@ const Projects = () => {
                     })}
                 </div>
 
-                {/* Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Grid — key includes activeTab so cards remount on filter change and animation replays */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {filtered.map((project, i) => (
-                        <Card
-                            key={`${project.title}-${i}`}
-                            hoverable
-                            className={cn('p-0 overflow-hidden flex flex-col', `reveal delay-${Math.min(i + 1, 5)}`)}
+                        <div
+                            key={`${activeTab}-${project.title}`}
+                            style={{ animation: 'fadeInUp 0.35s ease both', animationDelay: `${i * 0.07}s` }}
                         >
-                            {/* Thumbnail */}
-                            <div className="relative h-40 bg-gradient-to-br from-[var(--bg-secondary)] to-[var(--bg-card-hover)] border-b border-[var(--border)] flex items-center justify-center">
-                                <span className="text-4xl">{project.category === 'mobile' ? '📱' : '🌐'}</span>
-                                <span
-                                    className={cn(
-                                        'absolute top-3 right-3 text-[0.72rem] font-semibold px-2 py-0.5 rounded-full border',
-                                        project.status === 'Live'
-                                            ? 'bg-[rgba(34,197,94,0.15)] text-green-400 border-[rgba(34,197,94,0.3)]'
-                                            : 'bg-[rgba(251,191,36,0.12)] text-yellow-400 border-[rgba(251,191,36,0.3)]'
+                            <Card hoverable className="p-0 overflow-hidden flex flex-col h-full">
+                                {/* Carousel Thumbnail */}
+                                <div className="relative h-48 overflow-hidden border-b border-[var(--border)]">
+                                    <ProjectCarousel
+                                        images={project.images}
+                                        alt={project.title}
+                                        isMobile={project.category === 'mobile' || project.category === 'freelance'}
+                                    />
+                                    <span className="absolute top-3 left-3 text-[0.72rem] font-semibold px-2 py-0.5 rounded-full border bg-[rgba(129,140,248,0.15)] text-[var(--accent-violet)] border-[rgba(129,140,248,0.3)] z-10 pointer-events-none">
+                                        {project.type}
+                                    </span>
+                                    <span className="absolute top-3 right-3 text-[0.72rem] font-semibold px-2 py-0.5 rounded-full border bg-[rgba(34,197,94,0.15)] text-green-400 border-[rgba(34,197,94,0.3)] z-10 pointer-events-none">
+                                        {project.status}
+                                    </span>
+                                </div>
+
+                                {/* Body */}
+                                <div className="flex flex-col gap-3 p-5 flex-1">
+                                    <div>
+                                        <h3 className="text-base font-bold text-[var(--text-primary)] m-0 mb-1">{project.title}</h3>
+                                        <p className="text-[0.78rem] text-[var(--accent-cyan)] font-medium m-0">{project.org}</p>
+                                    </div>
+                                    <p className="text-[0.88rem] text-[var(--text-secondary)] leading-[1.7] m-0">{project.description}</p>
+
+                                    <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
+                                        {project.tags.map((tag) => (
+                                            <span key={tag} className={tagCls}>{tag}</span>
+                                        ))}
+                                    </div>
+                                    {project.links.demo && (
+                                        <div className="pt-1">
+                                            <a
+                                                href={project.links.demo}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[var(--accent-blue)] text-white transition-all duration-300 hover:opacity-90"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                                    <polyline points="15 3 21 3 21 9" />
+                                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                                </svg>
+                                                Visit Site
+                                            </a>
+                                        </div>
                                     )}
-                                >
-                                    {project.status}
-                                </span>
-                            </div>
-
-                            {/* Body */}
-                            <div className="flex flex-col gap-3 p-5 flex-1">
-                                <h3 className="text-base font-bold text-[var(--text-primary)] m-0">{project.title}</h3>
-                                <p className="text-[0.88rem] text-[var(--text-secondary)] leading-[1.7] m-0">{project.description}</p>
-
-                                <div className="flex flex-wrap gap-1.5">
-                                    {project.tags.map((tag) => (
-                                        <span key={tag} className={tagCls}>{tag}</span>
-                                    ))}
                                 </div>
-
-                                <div className="flex gap-2 mt-auto pt-2">
-                                    <a
-                                        href={project.links.demo}
-                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[var(--accent-blue)] text-white transition-all duration-300 hover:opacity-90"
-                                    >
-                                        Live Demo
-                                    </a>
-                                    <a
-                                        href={project.links.github}
-                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-[var(--border)] text-[var(--text-secondary)] bg-transparent transition-all duration-300 hover:border-[var(--border-hover)] hover:text-[var(--text-primary)]"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.185 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.338c1.909-1.296 2.747-1.026 2.747-1.026.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.204 22 16.447 22 12.021 22 6.484 17.523 2 12 2z" />
-                                        </svg>
-                                        GitHub
-                                    </a>
-                                </div>
-                            </div>
-                        </Card>
+                            </Card>
+                        </div>
                     ))}
-                </div>
-
-                <div className="flex justify-center mt-12 reveal">
-                    <Button variant="outline" size="lg">
-                        View All Projects
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12 5 19 12 12 19" />
-                        </svg>
-                    </Button>
                 </div>
             </div>
         </section>

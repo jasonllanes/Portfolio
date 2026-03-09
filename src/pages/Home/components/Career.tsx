@@ -3,33 +3,54 @@ import SectionTitle from '../../../components/common/SectionTitle';
 
 const CAREER_ITEMS = [
     {
-        role: 'Senior Frontend Developer',
-        company: 'Company Name Here',
-        period: 'Jan 2023 – Present',
-        location: 'City, Country',
-        description:
-            'Led the frontend architecture for a SaaS platform serving 50k+ users. Mentored junior developers and drove adoption of modern React patterns.',
-        tags: ['React', 'TypeScript', 'GraphQL', 'AWS'],
+        role: 'Information System Analyst II',
+        company: 'Department of Information and Communications Technology',
+        period: 'Current',
+        location: 'Misamis Oriental',
+        type: 'Job Order',
+        bullets: [
+            'Developing and building systems based on internal operational needs of the agency.',
+            'Providing quality assurance to existing and newly developed systems by the DICT Central Office.',
+        ],
+        tags: ['Systems Development', 'Quality Assurance', 'Government', 'QA Testing'],
         current: true,
     },
     {
-        role: 'Mid-Level Software Engineer',
-        company: 'Another Company',
-        period: 'Jun 2021 – Dec 2022',
-        location: 'City, Country',
-        description:
-            'Built and maintained RESTful APIs and responsive web interfaces. Reduced page load time by 40% through performance optimization initiatives.',
-        tags: ['Node.js', 'React', 'PostgreSQL', 'Docker'],
+        role: 'Software Engineer',
+        company: 'Antimony Technologies',
+        period: 'Current',
+        location: 'Cagayan de Oro City',
+        type: 'Full-Time',
+        bullets: [
+            'Working as a front-end and mobile developer across multiple types of projects and systems.',
+        ],
+        tags: ['React JS', 'Flutter', 'Mobile Development', 'Front-end Development'],
+        current: true,
+    },
+    {
+        role: 'Front-end Developer',
+        company: 'CyTech International',
+        period: '2023 – 2024',
+        location: 'Cagayan de Oro City',
+        type: 'Full-Time',
+        bullets: [
+            'Absorbed into the company after OJT and transitioned to a full-time front-end developer role.',
+            'Built and maintained responsive web interfaces for the company\'s SaaS software system.',
+        ],
+        tags: ['React JS', 'HTML', 'CSS', 'JavaScript', 'SaaS'],
         current: false,
     },
     {
-        role: 'Junior Web Developer',
-        company: 'First Job Co.',
-        period: 'Mar 2020 – May 2021',
-        location: 'City, Country',
-        description:
-            'Developed client-facing landing pages and internal dashboards. Collaborated closely with designers to implement pixel-perfect UIs.',
-        tags: ['HTML', 'CSS', 'JavaScript', 'Vue.js'],
+        role: 'Quality Assurance (QA Tester)',
+        company: 'CyTech International',
+        period: '2021 – 2023',
+        location: 'Cagayan de Oro City',
+        type: 'OJT',
+        bullets: [
+            'Performed comprehensive manual testing on the company\'s SaaS software system.',
+            'Identified, documented, and tracked defects to ensure software quality standards were met.',
+        ],
+        tags: ['Manual Testing', 'QA', 'SaaS', 'Bug Tracking'],
         current: false,
     },
 ];
@@ -76,14 +97,26 @@ const Career = () => {
                                     <div className="flex flex-col items-start sm:items-end gap-0.5">
                                         <span className="text-xs text-[var(--text-muted)]">{item.period}</span>
                                         <span className="text-xs text-[var(--text-muted)]">{item.location}</span>
-                                        {item.current && (
-                                            <span className="text-[0.7rem] font-semibold px-2 py-0.5 rounded-full bg-[rgba(79,142,247,0.15)] text-[var(--accent-blue)] border border-[var(--border)]">
-                                                Current
+                                        <div className="flex gap-1.5 flex-wrap justify-end">
+                                            {item.current && (
+                                                <span className="text-[0.7rem] font-semibold px-2 py-0.5 rounded-full bg-[rgba(79,142,247,0.15)] text-[var(--accent-blue)] border border-[var(--border)]">
+                                                    Current
+                                                </span>
+                                            )}
+                                            <span className="text-[0.7rem] font-semibold px-2 py-0.5 rounded-full bg-[rgba(129,140,248,0.12)] text-[var(--accent-violet)] border border-[var(--border)]">
+                                                {item.type}
                                             </span>
-                                        )}
+                                        </div>
                                     </div>
                                 </div>
-                                <p className="text-[0.9rem] text-[var(--text-secondary)] leading-[1.75] mb-4">{item.description}</p>
+                                <ul className="list-none p-0 m-0 mb-4 flex flex-col gap-1.5">
+                                    {item.bullets.map((b, bi) => (
+                                        <li key={bi} className="flex items-start gap-2 text-[0.9rem] text-[var(--text-secondary)] leading-[1.75]">
+                                            <span className="mt-[0.45em] flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)]" />
+                                            {b}
+                                        </li>
+                                    ))}
+                                </ul>
                                 <div className="flex flex-wrap gap-1.5">
                                     {item.tags.map((tag) => <span key={tag} className={tagCls}>{tag}</span>)}
                                 </div>

@@ -4,29 +4,29 @@ import Card from '../../../components/common/Card';
 
 const EDUCATION = [
     {
-        degree: 'Bachelor of Science in Computer Science',
-        institution: 'University Name Here',
-        period: '2016 – 2020',
-        location: 'City, Country',
+        degree: "Bachelor's Degree in Information Technology",
+        institution: 'STI College Cagayan de Oro City',
+        period: '2018 – 2024',
+        location: 'Cagayan de Oro City',
         description:
-            'Graduated with honors. Focused on software engineering, algorithms, and data structures. Active member of the university coding club.',
-        honors: "Dean's List, Best Thesis Award",
+            'Graduated Magna Cum Laude with consistent Dean\'s List recognition. Served as GDSC Event Lead, organizing tech events for the developer community.',
+        honors: 'Magna Cum Laude · Consistent Dean\'s Lister · Leadership Awardee · Former GDSC Event Lead',
     },
     {
-        degree: 'High School Diploma – STEM Track',
-        institution: 'School Name Here',
-        period: '2012 – 2016',
-        location: 'City, Country',
+        degree: 'High School Diploma – TVL: IT in Mobile App & Web Development (MAWD)',
+        institution: 'Cagayan de Oro National High School',
+        period: '2014 – 2018',
+        location: 'Cagayan de Oro City',
         description:
-            'Completed STEM curriculum with distinction. Participated in regional programming competitions and mathematics olympiads.',
-        honors: 'Valedictorian',
+            'Completed the Science, Technology, and Engineering (STE) Science Class track. Recognized for outstanding performance in ICT and exemplary technical skills.',
+        honors: 'Consistent Honor Student · Conduct Awardee · Outstanding Performance in ICT · Best Technical Director & Editor',
     },
 ];
 
-const CERTIFICATIONS = [
-    { name: 'AWS Certified Developer – Associate', issuer: 'Amazon Web Services', year: '2023' },
-    { name: 'Professional Scrum Master I (PSM I)', issuer: 'Scrum.org', year: '2022' },
-    { name: 'Meta Front-End Developer Certificate', issuer: 'Coursera / Meta', year: '2022' },
+const RECOGNITIONS = [
+    { name: 'Plastic 3R Hacks PH – City Matching Finalist', issuer: 'City of Cagayan de Oro / UN Habitat', year: '2023' },
+    { name: 'Google Solution Challenge Participant', issuer: 'Google Developer Student Clubs', year: '2023' },
+    { name: 'GDSC Event Lead', issuer: 'Google Developer Student Clubs – STI CDO', year: '2022' },
 ];
 
 const Education = () => {
@@ -72,13 +72,13 @@ const Education = () => {
                         ))}
                     </div>
 
-                    {/* Certifications */}
+                    {/* Recognitions & Achievements */}
                     <div className="reveal delay-2">
                         <h3 className="text-base font-bold text-[var(--text-primary)] mb-4 pb-2 border-b border-[var(--border)]">
-                            Certifications
+                            Recognitions &amp; Achievements
                         </h3>
                         <div className="flex flex-col gap-3">
-                            {CERTIFICATIONS.map((cert, i) => (
+                            {RECOGNITIONS.map((item, i) => (
                                 <Card key={i} hoverable className="flex items-center gap-3 p-4">
                                     <div className="flex-shrink-0 w-9 h-9 bg-[rgba(129,140,248,0.12)] rounded-lg flex items-center justify-center text-[var(--accent-violet)]">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -87,8 +87,8 @@ const Education = () => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <p className="text-[0.88rem] font-semibold text-[var(--text-primary)] m-0 mb-0.5">{cert.name}</p>
-                                        <p className="text-[0.78rem] text-[var(--text-muted)] m-0">{cert.issuer} · {cert.year}</p>
+                                        <p className="text-[0.88rem] font-semibold text-[var(--text-primary)] m-0 mb-0.5">{item.name}</p>
+                                        <p className="text-[0.78rem] text-[var(--text-muted)] m-0">{item.issuer} · {item.year}</p>
                                     </div>
                                 </Card>
                             ))}

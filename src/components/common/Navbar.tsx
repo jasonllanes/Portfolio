@@ -36,7 +36,7 @@ const Navbar = () => {
                 {/* Logo */}
                 <a href="#hero" onClick={closeMenu} className="text-xl font-bold flex items-center gap-0.5 text-[var(--text-primary)] no-underline">
                     <span className="gradient-text">{'<'}</span>
-                    <span>YourName</span>
+                    <span>JasonLlanes</span>
                     <span className="gradient-text">{' />'}</span>
                 </a>
 
